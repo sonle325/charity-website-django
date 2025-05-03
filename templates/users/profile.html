@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Hồ Sơ Người Dùng{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h3 class="card-title mb-0">Thông Tin Cá Nhân</h3>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">Email:</div>
+                    <div class="col-md-8">{{ user.email }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">Họ:</div>
+                    <div class="col-md-8">{{ user.last_name|default:"Chưa cập nhật" }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">Tên:</div>
+                    <div class="col-md-8">{{ user.first_name|default:"Chưa cập nhật" }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">Ngày tham gia:</div>
+                    <div class="col-md-8">{{ user.date_joined|date:"d/m/Y" }}</div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'users:profile_update' %}" class="btn btn-primary">Cập Nhật Thông Tin</a>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-header bg-success text-white">
+                <h3 class="card-title mb-0">Lịch Sử Quyên Góp</h3>
+            </div>
+            <div class="card-body">
+                {% if donations %}
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Ngày</th>
+                                <th>Chiến Dịch</th>
+                                <th>Số Tiền</th>
+                                <th>Trạng Thái</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for donation in donations %}
+                                <tr>
+                                    <td>{{ donation.created_at|date:"d/m/Y" }}</td>
+                                    <td>{{ donation.campaign.title }}</td>
+                                    <td>{{ donation.amount|floatformat:0 }} VNĐ</td>
+                                    <td>
+                                        {% if donation.is_verified %}
+                                            <span class="badge bg-success">Đã xác nhận</span>
+                                        {% else %}
+                                            <span class="badge bg-warning">Đang xử lý</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p class="text-center">Bạn chưa thực hiện quyên góp nào.</p>
+                    <div class="text-center">
+                        <a href="{% url 'campaigns:list' %}" class="btn btn-success">Xem Các Chiến Dịch</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

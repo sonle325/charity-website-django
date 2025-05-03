@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Xác nhận Quyên góp Demo" %}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h2>{% trans "Xác nhận Quyên góp Demo" %}</h2>
+            <p>{% trans "Cảm ơn bạn đã chọn quyên góp cho chiến dịch:" %} <strong>{{ donation.campaign.title }}</strong></p>
+            <p>{% trans "Số tiền:" %} <strong>{{ donation.amount|floatformat:0 }} VND</strong></p>
+            <p>{% trans "Mã giao dịch Demo:" %} <strong>{{ donation.transaction_id }}</strong></p>
+            
+            <hr>
+
+            <h4>{% trans "Mã QR Demo" %}</h4>
+            <p>{% trans "Đây là mã QR chỉ mang tính chất minh họa. Trong hệ thống thực tế, bạn sẽ quét mã này bằng ứng dụng thanh toán." %}</p>
+            
+            {% if qr_code_base64 %}
+                <img src="data:image/png;base64,{{ qr_code_base64 }}" alt="{% trans "Mã QR Demo" %}" class="img-fluid my-3" style="max-width: 250px;">
+            {% else %}
+                <p class="text-danger">{% trans "Lỗi: Không thể tạo mã QR." %}</p>
+            {% endif %}
+
+            {% if error %}
+                <div class="alert alert-danger mt-3" role="alert">
+                    {{ error }}
+                </div>
+                <a href="{% url 'home' %}" class="btn btn-secondary mt-3">{% trans "Quay lại Trang chủ" %}</a>
+            {% elif confirmation_url %}
+                <p class="mt-3">{% trans "Sau khi (giả vờ) quét mã, vui lòng nhấn nút bên dưới để hoàn tất quyên góp demo." %}</p>
+                <a href="{{ confirmation_url }}" class="btn btn-success btn-lg mt-2">{% trans "Tôi đã hoàn tất Thanh toán Demo" %}</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+

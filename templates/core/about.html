@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Về Chúng Tôi - Website Từ Thiện{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <h1 class="display-5 mb-4 text-center">Về Chúng Tôi</h1>
+            
+            <div class="card mb-5">
+                <div class="card-body">
+                    <h3 class="card-title">Sứ Mệnh Của Chúng Tôi</h3>
+                    <p class="card-text">
+                        Chúng tôi là một tổ chức phi lợi nhuận hoạt động với sứ mệnh kết nối những tấm lòng hảo tâm đến với những hoàn cảnh khó khăn trên khắp Việt Nam. Chúng tôi tin rằng mỗi đóng góp, dù lớn hay nhỏ, đều có thể tạo nên sự thay đổi tích cực trong cuộc sống của những người cần giúp đỡ.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="card mb-5">
+                <div class="card-body">
+                    <h3 class="card-title">Giá Trị Cốt Lõi</h3>
+                    <div class="row mt-4">
+                        <div class="col-md-6 mb-4">
+                            <div class="d-flex">
+                                <div class="flex-shrink-0">
+                                    <i class="bi bi-heart-fill text-danger fs-2"></i>
+                                </div>
+                                <div class="ms-3">
+                                    <h5>Lòng Trắc Ẩn</h5>
+                                    <p>Chúng tôi đặt lòng trắc ẩn lên hàng đầu trong mọi hoạt động, luôn đồng cảm và thấu hiểu những khó khăn của cộng đồng.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="d-flex">
+                                <div class="flex-shrink-0">
+                                    <i class="bi bi-shield-check text-primary fs-2"></i>
+                                </div>
+                                <div class="ms-3">
+                                    <h5>Minh Bạch</h5>
+                                    <p>Chúng tôi cam kết minh bạch trong mọi hoạt động, từ việc tiếp nhận đến phân phối các khoản quyên góp.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="d-flex">
+                                <div class="flex-shrink-0">
+                                    <i class="bi bi-people-fill text-success fs-2"></i>
+                                </div>
+                                <div class="ms-3">
+                                    <h5>Cộng Đồng</h5>
+                                    <p>Chúng tôi tin vào sức mạnh của cộng đồng và khả năng tạo nên thay đổi khi chúng ta cùng chung tay.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="d-flex">
+                                <div class="flex-shrink-0">
+                                    <i class="bi bi-stars text-warning fs-2"></i>
+                                </div>
+                                <div class="ms-3">
+                                    <h5>Hiệu Quả</h5>
+                                    <p>Chúng tôi cam kết sử dụng nguồn lực một cách hiệu quả nhất để tạo ra tác động tích cực lớn nhất.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mb-5">
+                <div class="card-body">
+                    <h3 class="card-title">Cách Chúng Tôi Hoạt Động</h3>
+                    <p class="card-text">
+                        Chúng tôi xác định các hoàn cảnh khó khăn cần được giúp đỡ, tạo các chiến dịch quyên góp trực tuyến, và kết nối những người muốn đóng góp với những người cần sự giúp đỡ. Mỗi chiến dịch đều được xác minh kỹ lưỡng và cập nhật thường xuyên để đảm bảo tính minh bạch.
+                    </p>
+                    <p class="card-text">
+                        100% số tiền quyên góp (trừ phí giao dịch của cổng thanh toán) sẽ được chuyển đến đối tượng thụ hưởng. Chúng tôi duy trì hoạt động thông qua các khoản tài trợ riêng và sự đóng góp tự nguyện.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Đội Ngũ Của Chúng Tôi</h3>
+                    <p class="card-text">
+                        Chúng tôi là một đội ngũ gồm những người trẻ nhiệt huyết, các chuyên gia trong lĩnh vực xã hội và các tình nguyện viên tận tâm. Tất cả chúng tôi đều chia sẻ chung niềm tin vào việc xây dựng một xã hội tốt đẹp hơn thông qua những hành động nhỏ nhưng ý nghĩa.
+                    </p>
+                    <div class="text-center mt-4">
+                        <a href="{% url 'core:contact' %}" class="btn btn-primary">Liên Hệ Với Chúng Tôi</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

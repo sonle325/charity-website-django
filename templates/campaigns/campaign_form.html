@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ form_title }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h3 class="card-title mb-0">{{ form_title }}</h3>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button type="submit" class="btn btn-primary mt-3">Lưu Chiến Dịch</button>
+                    {% if object %}
+                        <a href="{% url 'campaigns:detail' slug=object.slug %}" class="btn btn-secondary mt-3">Hủy</a>
+                    {% else %}
+                        <a href="{% url 'campaigns:list' %}" class="btn btn-secondary mt-3">Hủy</a>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

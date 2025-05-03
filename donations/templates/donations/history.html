@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Donation History{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Donation History</h2>
+    {% if donations %}
+        <ul class="list-group">
+            {% for donation in donations %}
+                <li class="list-group-item">
+                    <strong>Donation ID:</strong> {{ donation.id }}<br>
+                    <strong>Campaign:</strong> 
+                    <a href="{% url 'campaigns:detail' slug=donation.campaign.slug %}">
+                        {{ donation.campaign.title }}
+                    </a><br>
+                    <strong>Amount:</strong> {{ donation.amount }}<br>
+                    <strong>Donor Name:</strong> {{ donation.donor_name }}<br>
+                    <strong>Date:</strong> {{ donation.created_at|date:"Y-m-d H:i" }}<br>
+                    <a href="{% url 'donations:qr_code' donation.id %}" target="_blank" class="btn btn-sm btn-primary">View VNPay QR Code</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No donations found.</p>
+    {% endif %}
+</div>
+{% endblock %}

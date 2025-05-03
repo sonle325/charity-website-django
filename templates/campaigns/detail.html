@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ campaign.title }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Campaign Main Info -->
+            <div class="card mb-4">
+                <img src="{{ campaign.image.url }}" class="card-img-top" alt="{{ campaign.title }}" style="max-height: 400px; object-fit: cover;">
+                <div class="card-body">
+                    <h1 class="card-title">{{ campaign.title }}</h1>
+                    <p class="text-muted">Tạo bởi: {{ campaign.created_by.get_full_name|default:campaign.created_by.email }} | Ngày đăng: {{ campaign.created_at|date:"d/m/Y" }}</p>
+                    <hr>
+                    <p class="lead">{{ campaign.short_description }}</p>
+                    <hr>
+                    <h4 class="mb-3">Mô tả chi tiết</h4>
+                    <div class="campaign-description">
+                        {{ campaign.description|linebreaksbr }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Campaign Updates -->
+            <div class="card mb-4">
+                <div class="card-header bg-light">
+                    <h4 class="mb-0">Cập Nhật Chiến Dịch</h4>
+                    {% if user.is_staff %}
+                        <a href="{% url 'campaigns:add_update' campaign_slug=campaign.slug %}" class="btn btn-sm btn-outline-primary float-end">Thêm Cập Nhật</a>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    {% if updates %}
+                        {% for update in updates %}
+                            <div class="update-item mb-3 pb-3 border-bottom">
+                                <h5>{{ update.title }}</h5>
+                                <p class="text-muted"><small>Đăng ngày: {{ update.created_at|date:"d/m/Y H:i" }} bởi {{ update.created_by.get_full_name|default:update.created_by.email }}</small></p>
+                                {% if update.image %}
+                                    <img src="{{ update.image.url }}" class="img-fluid rounded mb-2" alt="{{ update.title }}" style="max-height: 200px;">
+                                {% endif %}
+                                <p>{{ update.content|linebreaksbr }}</p>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-center">Chưa có cập nhật nào cho chiến dịch này.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <!-- Donation Progress & Action -->
+            <div class="card mb-4 sticky-top" style="top: 20px;">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">Thông Tin Quyên Góp</h4>
+                </div>
+                <div class="card-body">
+                    <div class="progress mb-3" style="height: 20px;">
+                        <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" 
+                             style="width: {{ campaign.progress_percentage }}%;" 
+                             aria-valuenow="{{ campaign.progress_percentage }}" aria-valuemin="0" aria-valuemax="100">
+                            {{ campaign.progress_percentage }}%
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <p class="mb-0"><strong>Đã quyên góp:</strong></p>
+                            <h5 class="text-success">{{ campaign.current_amount|floatformat:0 }} VNĐ</h5>
+                        </div>
+                        <div class="col-6 text-end">
+                            <p class="mb-0"><strong>Mục tiêu:</strong></p>
+                            <h5>{{ campaign.target_amount|floatformat:0 }} VNĐ</h5>
+                        </div>
+                    </div>
+                    <p class="text-muted mb-3">Ngày kết thúc: {{ campaign.end_date|date:"d/m/Y" }}</p>
+                    
+                    {% if campaign.is_active %}
+                        <a href="{% url 'donations:create' campaign_id=campaign.pk %}" class="btn btn-lg btn-success w-100 mb-2">Quyên Góp Ngay</a>
+                    {% else %}
+                        <button class="btn btn-lg btn-secondary w-100 mb-2" disabled>Chiến Dịch Đã Kết Thúc</button>
+                    {% endif %}
+                    
+                    {% if user.is_staff %}
+                        <a href="{% url 'campaigns:update' slug=campaign.slug %}" class="btn btn-sm btn-outline-warning w-100">Chỉnh Sửa Chiến Dịch</a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Recent Donations -->
+            <div class="card mb-4">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Người Quyên Góp Gần Đây</h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% if recent_donations %}
+                        {% for donation in recent_donations %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>
+                                    {% if donation.is_anonymous %}
+                                        Ẩn danh
+                                    {% else %}
+                                        {{ donation.user.get_full_name|default:donation.user.email|default:donation.donor_name|default:"Ẩn danh" }}
+                                    {% endif %}
+                                </span>
+                                <span class="badge bg-primary rounded-pill">{{ donation.amount|floatformat:0 }} VNĐ</span>
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                        <li class="list-group-item text-center">Chưa có lượt quyên góp nào.</li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

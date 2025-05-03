@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Donation QR Code{% endblock %}
+
+{% block content %}
+<div class="container text-center my-5">
+    <h2>QR Code for Donation #{{ donation.id }}</h2>
+    <img src="data:image/png;base64,{{ qr_code_base64 }}" alt="Donation QR Code" />
+    <p>Scan this QR code to view the donation details.</p>
+</div>
+{% endblock %}

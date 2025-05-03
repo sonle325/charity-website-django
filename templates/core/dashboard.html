@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}Bảng Điều Khiển Quản Trị{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <h1 class="display-5 mb-4">Bảng Điều Khiển Quản Trị</h1>
+
+    {% if not user.is_staff %}
+        <div class="alert alert-danger" role="alert">
+            Bạn không có quyền truy cập trang này.
+        </div>
+    {% else %}
+        <!-- Tổng quan -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card text-center h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Tổng Chiến Dịch</h5>
+                        <p class="display-6 fw-bold text-primary">{{ total_campaigns|intcomma }}</p>
+                        <p class="text-muted">Đang hoạt động: {{ active_campaigns|intcomma }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Tổng Lượt Quyên Góp</h5>
+                        <p class="display-6 fw-bold text-success">{{ total_donations|intcomma }}</p>
+                        <p class="text-muted">Đã hoàn thành thanh toán</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Tổng Số Tiền</h5>
+                        <p class="display-6 fw-bold text-danger">{{ total_amount|intcomma }} VNĐ</p>
+                        <p class="text-muted">Đã quyên góp thành công</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Trung Bình Mỗi Lượt</h5>
+                        <p class="display-6 fw-bold text-info">
+                            {% if total_donations > 0 %}
+                                {{ total_amount|floatformat:0|intcomma }} VNĐ
+                            {% else %}
+                                0 VNĐ
+                            {% endif %}
+                        </p>
+                        <p class="text-muted">Số tiền trung bình mỗi lượt quyên góp</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Chiến dịch thành công nhất -->
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-light">
+                        <h4 class="mb-0">Chiến Dịch Thành Công Nhất</h4>
+                    </div>
+                    <div class="card-body">
+                        {% if top_campaigns %}
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Chiến Dịch</th>
+                                            <th>Lượt Quyên Góp</th>
+                                            <th>Tổng Tiền</th>
+                                            <th>Tiến Độ</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for campaign in top_campaigns %}
+                                            <tr>
+                                                <td><a href="{% url 'campaigns:detail' slug=campaign.slug %}">{{ campaign.title|truncatechars:30 }}</a></td>
+                                                <td>{{ campaign.donation_count|intcomma }}</td>
+                                                <td>{{ campaign.total_raised|default:0|intcomma }} VNĐ</td>
+                                                <td>
+                                                    <div class="progress" style="height: 1rem;">
+                                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ campaign.progress_percentage }}%;" 
+                                                            aria-valuenow="{{ campaign.progress_percentage }}" aria-valuemin="0" aria-valuemax="100">
+                                                            {{ campaign.progress_percentage }}%
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <p class="text-center">Chưa có dữ liệu chiến dịch.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chiến dịch gần đây -->
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-light">
+                        <h4 class="mb-0">Chiến Dịch Gần Đây</h4>
+                    </div>
+                    <div class="card-body">
+                        {% if recent_campaigns %}
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Chiến Dịch</th>
+                                            <th>Ngày Tạo</th>
+                                            <th>Trạng Thái</th>
+                                            <th>Mục Tiêu</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for campaign in recent_campaigns %}
+                                            <tr>
+                                                <td><a href="{% url 'campaigns:detail' slug=campaign.slug %}">{{ campaign.title|truncatechars:30 }}</a></td>
+                                                <td>{{ campaign.created_at|date:"d/m/Y" }}</td>
+                                                <td><span class="badge bg-{% if campaign.status == 'active' %}success{% elif campaign.status == 'completed' %}secondary{% else %}warning{% endif %}">{{ campaign.get_status_display }}</span></td>
+                                                <td>{{ campaign.target_amount|intcomma }} VNĐ</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <p class="text-center">Chưa có chiến dịch nào gần đây.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quyên góp gần đây -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light">
+                <h4 class="mb-0">Quyên Góp Gần Đây</h4>
+            </div>
+            <div class="card-body">
+                {% if recent_donations %}
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Ngày</th>
+                                    <th>Người Quyên Góp</th>
+                                    <th>Chiến Dịch</th>
+                                    <th>Số Tiền</th>
+                                    <th>Mã Giao Dịch</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for donation in recent_donations %}
+                                    <tr>
+                                        <td>{{ donation.created_at|date:"d/m/Y H:i" }}</td>
+                                        <td>
+                                            {% if donation.is_anonymous %}
+                                                <i>Ẩn danh</i>
+                                            {% elif donation.user %}
+                                                <a href="{% url 'admin:users_customuser_change' donation.user.pk %}" target="_blank">{{ donation.user.email }}</a>
+                                            {% else %}
+                                                {{ donation.donor_name|default:"N/A" }} ({{ donation.donor_email|default:"N/A" }})
+                                            {% endif %}
+                                        </td>
+                                        <td><a href="{% url 'campaigns:detail' slug=donation.campaign.slug %}">{{ donation.campaign.title|truncatechars:30 }}</a></td>
+                                        <td>{{ donation.amount|intcomma }} VNĐ</td>
+                                        <td>{{ donation.transaction_id|default:"N/A" }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="text-center">Chưa có lượt quyên góp nào gần đây.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Liên kết đến báo cáo chi tiết -->
+        <div class="text-center mb-4">
+            <a href="{% url 'donations:report' %}" class="btn btn-primary">Xem Báo Cáo Chi Tiết Quyên Góp</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

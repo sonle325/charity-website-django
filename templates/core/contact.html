@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Liên Hệ - Website Từ Thiện{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <h1 class="display-5 mb-4 text-center">Liên Hệ Với Chúng Tôi</h1>
+            <p class="lead text-center mb-5">Chúng tôi luôn sẵn lòng lắng nghe ý kiến đóng góp hoặc giải đáp thắc mắc của bạn.</p>
+
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h4 class="card-title mb-3"><i class="bi bi-geo-alt-fill text-primary me-2"></i>Địa Chỉ</h4>
+                            <p>Số 1, Đường ABC, Quận XYZ,</p>
+                            <p>Thành phố Hồ Chí Minh, Việt Nam</p>
+                            <hr>
+                            <h4 class="card-title mb-3"><i class="bi bi-telephone-fill text-success me-2"></i>Điện Thoại</h4>
+                            <p>0123 456 789</p>
+                            <hr>
+                            <h4 class="card-title mb-3"><i class="bi bi-envelope-fill text-info me-2"></i>Email</h4>
+                            <p>contact@tuthienvn.org</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h4 class="card-title mb-3">Gửi Tin Nhắn Cho Chúng Tôi</h4>
+                            {% comment %} Add a contact form here if needed {% endcomment %}
+                            <form method="post"> {% comment %} Replace with actual form handling if implemented {% endcomment %}
+                                {% csrf_token %}
+                                {% comment %} Example using crispy forms if a ContactForm is created
+                                {{ contact_form|crispy }}
+                                {% endcomment %}
+                                <div class="mb-3">
+                                    <label for="contactName" class="form-label">Họ và Tên</label>
+                                    <input type="text" class="form-control" id="contactName" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="contactEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="contactEmail" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="contactSubject" class="form-label">Chủ đề</label>
+                                    <input type="text" class="form-control" id="contactSubject" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="contactMessage" class="form-label">Nội dung</label>
+                                    <textarea class="form-control" id="contactMessage" rows="5" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Gửi Tin Nhắn</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

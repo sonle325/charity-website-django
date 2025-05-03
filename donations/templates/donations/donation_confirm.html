@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirm Donation{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Confirm Your Donation</h2>
+    <p><strong>Campaign:</strong> {{ donation.campaign.title }}</p>
+    <p><strong>Amount:</strong> {{ donation.amount }}</p>
+    <p><strong>Donor Name:</strong> {{ donation.donor_name }}</p>
+    <p><strong>Donor Email:</strong> {{ donation.donor_email }}</p>
+
+    <a href="{% url 'donations:qr_code' donation.id %}" class="btn btn-primary">Proceed to VNPay QR Code</a>
+</div>
+{% endblock %}

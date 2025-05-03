@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Donate Now{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Donate Now - VNPay Sandbox</h2>
+    <button id="donateNowBtn" class="btn btn-primary mb-3">Quyên Góp Ngay</button>
+
+    <div id="qrCodeContainer" style="display:none;">
+        <h4>QR Code VNPay</h4>
+        <img id="qrCodeImage" src="" alt="VNPay QR Code" />
+        <p><a id="vnpayLink" href="" target="_blank">Mở liên kết thanh toán</a></p>
+    </div>
+</div>

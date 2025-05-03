@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Quyên Góp - {{ campaign.title }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h3 class="card-title mb-0">Quyên Góp Cho Chiến Dịch</h3>
+            </div>
+            <div class="card-body">
+                <h4>{{ campaign.title }}</h4>
+                <p>{{ campaign.short_description }}</p>
+                
+                <div class="progress mb-3">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ campaign.progress_percentage }}%;" 
+                        aria-valuenow="{{ campaign.progress_percentage }}" aria-valuemin="0" aria-valuemax="100">
+                        {{ campaign.progress_percentage }}%
+                    </div>
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-6">
+                        <p class="mb-0"><strong>Mục tiêu:</strong> {{ campaign.target_amount|floatformat:0 }} VNĐ</p>
+                    </div>
+                    <div class="col-6 text-end">
+                        <p class="mb-0"><strong>Đã quyên góp:</strong> {{ campaign.current_amount|floatformat:0 }} VNĐ</p>
+                    </div>
+                </div>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        {{ form.amount|as_crispy_field }}
+                    </div>
+                    
+                    <div class="mb-3 form-check">
+                        {{ form.is_anonymous }}
+                        <label class="form-check-label" for="{{ form.is_anonymous.id_for_label }}">
+                            {{ form.is_anonymous.label }}
+                        </label>
+                    </div>
+                    
+                    <div id="anonymous-fields" style="{% if user.is_authenticated %}display: none;{% endif %}">
+                        <div class="mb-3">
+                            {{ form.donor_name|as_crispy_field }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.donor_email|as_crispy_field }}
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Quyên Góp Ngay</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h4 class="card-title mb-0">Thông Tin Chiến Dịch</h4>
+            </div>
+            <div class="card-body">
+                <p><strong>Ngày bắt đầu:</strong> {{ campaign.start_date|date:"d/m/Y" }}</p>
+                <p><strong>Ngày kết thúc:</strong> {{ campaign.end_date|date:"d/m/Y" }}</p>
+                <p><strong>Trạng thái:</strong> 
+                    {% if campaign.is_active %}
+                        <span class="badge bg-success">Đang diễn ra</span>
+                    {% else %}
+                        <span class="badge bg-secondary">{{ campaign.get_status_display }}</span>
+                    {% endif %}
+                </p>
+                <hr>
+                <a href="{{ campaign.get_absolute_url }}" class="btn btn-outline-primary w-100">Xem Chi Tiết Chiến Dịch</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function toggleAnonymousFields(checkbox) {
+        const anonymousFields = document.getElementById('anonymous-fields');
+        if (checkbox.checked) {
+            anonymousFields.style.display = 'none';
+        } else {
+            anonymousFields.style.display = 'block';
+        }
+    }
+    
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        const anonymousCheckbox = document.getElementById('{{ form.is_anonymous.id_for_label }}');
+        if (anonymousCheckbox) {
+            toggleAnonymousFields(anonymousCheckbox);
+        }
+    });
+</script>
+{% endblock %}

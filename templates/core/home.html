@@ -1,0 +1,295 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Trang Chủ - {{ block.super }}{% endblock title %}
+
+{% block content %}
+    <!-- slider_area_start -->
+    <div class="slider_area">
+        <div class="single_slider  d-flex align-items-center slider_bg_1 overlay2" style="background-image: url('{% static 'img/banner/banner.png' %}');">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="slider_text ">
+                            <span>Bắt đầu ngay hôm nay.</span>
+                            <h3> Giúp đỡ những mảnh đời <br>
+                                Khi họ cần</h3>
+                            <p>Với rất nhiều hoàn cảnh khó khăn cần giúp đỡ, <br>
+                                hành động của bạn là vô cùng thiết yếu.</p>
+                            <a href="{% url 'core:about' %}" class="boxed-btn3">Tìm hiểu thêm
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- slider_area_end -->
+
+    <!-- reson_area_start  -->
+    <div class="reson_area section_padding">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="section_title text-center mb-55">
+                        <h3><span>Lý do giúp đỡ</span></h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-4 col-md-6">
+                    <div class="single_reson">
+                        <div class="thum">
+                            <div class="thum_1">
+                                <img src="{% static 'img/help/1.png' %}" alt="">
+                            </div>
+                        </div>
+                        <div class="help_content">
+                            <h4>Gây quỹ hiệu quả</h4>
+                            <p>Chúng tôi kết nối những tấm lòng hảo tâm với các hoàn cảnh khó khăn một cách minh bạch và hiệu quả.</p>
+                            {# <a href="#" class="read_more">Read More</a> #}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="single_reson">
+                        <div class="thum">
+                            <div class="thum_1">
+                                <img src="{% static 'img/help/2.png' %}" alt="">
+                            </div>
+                        </div>
+                        <div class="help_content">
+                            <h4>Chiến dịch đa dạng</h4>
+                            <p>Nhiều chiến dịch thuộc các lĩnh vực khác nhau như giáo dục, y tế, môi trường đang chờ bạn chung tay.</p>
+                            {# <a href="#" class="read_more">Read More</a> #}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="single_reson">
+                        <div class="thum">
+                            <div class="thum_1">
+                                <img src="{% static 'img/help/3.png' %}" alt="">
+                            </div>
+                        </div>
+                        <div class="help_content">
+                            <h4>Tình nguyện viên nhiệt huyết</h4>
+                            <p>Đội ngũ tình nguyện viên của chúng tôi luôn sẵn sàng hỗ trợ và lan tỏa yêu thương đến cộng đồng.</p>
+                            {# <a href="#" class="read_more">Read More</a> #}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- reson_area_end  -->
+
+    <!-- latest_activites_area_start  -->
+    {# This section can be used for featured campaigns or news #}
+    <div class="latest_activites_area">
+        <div class=" video_bg_1 video_activite d-flex align-items-center justify-content-center" style="background-image: url('{% static 'img/video/video_bg.png' %}');">
+            {# Optional: Add a video link #}
+            {# <a class="popup-video" href="https://www.youtube.com/watch?v=MG3jGHnBVQs">
+                <i class="flaticon-ui"></i>
+            </a> #}
+        </div>
+        <div class="container">
+            <div class="row justify-content-end">
+                <div class="col-lg-7">
+                    <div class="activites_info">
+                        <div class="section_title">
+                            <h3> <span>Xem các Hoạt động</span><br>
+                                Mới nhất của chúng tôi</h3>
+                        </div>
+                        <p class="para_1">Chúng tôi thường xuyên tổ chức các sự kiện và chiến dịch ý nghĩa nhằm hỗ trợ cộng đồng. Hãy cùng xem lại những khoảnh khắc đáng nhớ.</p>
+                        <p class="para_2">Mỗi đóng góp, dù nhỏ, đều tạo nên sự khác biệt lớn lao. Chung tay cùng chúng tôi lan tỏa yêu thương và xây dựng một xã hội tốt đẹp hơn.</p>
+                        <a href="{% url 'campaigns:list' %}" class="boxed-btn4">Quyên góp ngay</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- latest_activites_area_end  -->
+
+    <!-- popular_causes_area_start  -->
+    <div class="popular_causes_area section_padding">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="section_title text-center mb-55">
+                        <h3><span>Các Chiến dịch Nổi bật</span></h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="causes_active owl-carousel">
+                        {% for campaign in featured_campaigns|default_if_none:"" %} {# Assuming context variable 'featured_campaigns' #}
+                        <div class="single_cause">
+                            <div class="thumb">
+                                <img src="{{ campaign.image.url|default_if_none:"" }}" alt="{{ campaign.title }}">
+                            </div>
+                            <div class="causes_content">
+                                <div class="custom_progress_bar">
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: {{ campaign.get_progress_percentage }}%;" aria-valuenow="{{ campaign.get_progress_percentage }}" aria-valuemin="0" aria-valuemax="100">
+                                            <span class="progres_count">
+                                                {{ campaign.get_progress_percentage|floatformat:0 }}%
+                                            </span>
+                                        </div>
+                                      </div>
+                                </div>
+                                <div class="balance d-flex justify-content-between align-items-center">
+                                    <span>Đã quyên góp: {{ campaign.current_amount|floatformat:0 }}đ</span>
+                                    <span>Mục tiêu: {{ campaign.goal_amount|floatformat:0 }}đ</span>
+                                </div>
+                                <h4>{{ campaign.title }}</h4>
+                                <p>{{ campaign.description|truncatewords:20 }}</p>
+                                <a class="read_more" href="{% url 'campaigns:detail' campaign.pk %}">Xem chi tiết</a>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p class="text-center">Hiện chưa có chiến dịch nổi bật nào.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- popular_causes_area_end  -->
+
+    <!-- counter_area_start  -->
+    <div class="counter_area">
+        <div class="container">
+            <div class="counter_bg overlay" style="background-image: url('{% static 'img/banner/banner2.png' %}');">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="single_counter d-flex align-items-center justify-content-center">
+                            <div class="icon">
+                                <i class="flaticon-calendar"></i>
+                            </div>
+                            <div class="events">
+                                <h3 class="counter">{{ total_campaigns|default:0 }}</h3> {# Assuming context variable 'total_campaigns' #}
+                                <p>Chiến dịch</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="single_counter d-flex align-items-center justify-content-center">
+                            <div class="icon">
+                                <i class="flaticon-heart-beat"></i>
+                            </div>
+                            <div class="events">
+                                <h3 class="counter">{{ total_donations_amount|default:0|floatformat:0 }}</h3> {# Assuming context variable 'total_donations_amount' #}
+                                <p>Tổng tiền quyên góp (đ)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="single_counter d-flex align-items-center justify-content-center">
+                            <div class="icon">
+                                <i class="flaticon-in-love"></i>
+                            </div>
+                            <div class="events">
+                                <h3 class="counter">{{ total_donors|default:0 }}</h3> {# Assuming context variable 'total_donors' #}
+                                <p>Nhà hảo tâm</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="single_counter d-flex align-items-center justify-content-center">
+                            <div class="icon">
+                                <i class="flaticon-hug"></i>
+                            </div>
+                            <div class="events">
+                                <h3 class="counter">{{ total_volunteers|default:0 }}</h3> {# Assuming context variable 'total_volunteers' #}
+                                <p>Tình nguyện viên</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- counter_area_end  -->
+
+    <!-- our_volunteer_area_start  -->
+    {# This section can be used to showcase volunteers if data is available #}
+    {# <div class="our_volunteer_area section_padding">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="section_title text-center mb-55">
+                        <h3><span>Tình nguyện viên của chúng tôi</span></h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-4 col-md-6">
+                    <div class="single_volenteer">
+                        <div class="volenteer_thumb">
+                            <img src="{% static 'img/volenteer/1.png' %}" alt="">
+                        </div>
+                        <div class="voolenteer_info d-flex align-items-end">
+                            <div class="social_links">
+                                <ul>
+                                    <li><a href="#"> <i class="fa fa-facebook"></i> </a></li>
+                                    <li><a href="#"> <i class="fa fa-pinterest"></i> </a></li>
+                                    <li><a href="#"> <i class="fa fa-linkedin"></i> </a></li>
+                                    <li><a href="#"> <i class="fa fa-twitter"></i> </a></li>
+                                </ul>
+                            </div>
+                            <div class="info_inner">
+                                <h4>Tên Tình nguyện viên</h4>
+                                <p>Vai trò</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div> #}
+    <!-- our_volunteer_area_end  -->
+
+    <!-- news_area_start  -->
+    {# This section can be used for blog posts if implemented #}
+    {# <div class="news_area section_padding">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="section_title text-center mb-55">
+                        <h3><span>Tin tức & Bài viết</span></h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="news_active owl-carousel">
+                        <div class="single__news">
+                            <div class="thumb">
+                                <a href="single-blog.html">
+                                    <img src="{% static 'img/news/1.png' %}" alt="">
+                                </a>
+                            </div>
+                            <div class="news_info">
+                                <a href="single-blog.html">
+                                    <h4>Tiêu đề bài viết</h4>
+                                </a>
+                                <p class="d-flex align-items-center"> <span><i class="flaticon-calendar-1"></i> Ngày đăng</span>
+
+                                    <span> <i class="flaticon-comment"></i> 0 Bình luận</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> #}
+    <!-- news_area_end  -->
+
+    {# Removed donation form section as it might be handled differently in Django #}
+
+{% endblock content %}
+
